@@ -10,9 +10,9 @@ namespace CustomQuack;
 
 public class ModBehaviour : Duckov.Modding.ModBehaviour
 {
-	private InputAction newAction = new InputAction();
+	private InputAction newAction = new();
 
-	private List<string> soundPath = new List<string>();
+	private List<string> soundPath = new();
 
 	private void Awake()
 	{
