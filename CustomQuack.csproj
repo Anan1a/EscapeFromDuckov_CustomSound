@@ -1,31 +1,29 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <AssemblyName>CustomQuack</AssemblyName>
-    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
-    <TargetFramework>netstandard2.1</TargetFramework>
-  </PropertyGroup>
-  <PropertyGroup>
-    <LangVersion>12.0</LangVersion>
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup />
-  <ItemGroup />
-  <ItemGroup>
-    <Reference Include="TeamSoda.Duckov.Core">
-      <HintPath>E:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\TeamSoda.Duckov.Core.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Unity.InputSystem">
-      <HintPath>E:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.InputSystem.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>E:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="FMODUnity">
-      <HintPath>E:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\FMODUnity.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-  </ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <LangVersion>12.0</LangVersion>
+        <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+        <Nullable>enable</Nullable>
+
+        <!-- 鸭科夫安装路径（包含 Duckov.exe 的目录），编译器在此寻找相关的 dll 文件 -->
+        <DuckovPath>E:\SteamLibrary\steamapps\common\Escape from Duckov</DuckovPath>
+
+        <SubPath>\Duckov_Data\Managed\</SubPath>
+
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="$(DuckovPath)$(SubPath)TeamSoda.*">
+            <!-- 阻止依赖写入bin文件夹 -->
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="$(DuckovPath)$(SubPath)ItemStatsSystem.dll">
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="$(DuckovPath)$(SubPath)Unity*">
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="$(DuckovPath)$(SubPath)*Unity*">
+            <Private>false</Private>
+        </Reference>
+    </ItemGroup>
 </Project>
