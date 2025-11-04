@@ -86,8 +86,19 @@ public class ModBehaviour : Duckov.Modding.ModBehaviour
 			// 随机选择一个音频文件
 			int index = Random.Range(0, soundPath.Count);
 			
-			// 播放选中的音频文件
+			// 播放选中的音频文件（自定义音频）
 			AudioManager.PostCustomSFX(soundPath[index]);
+			
+			// 通知AI有声音产生，确保敌人能被吸引
+			AIMainBrain.MakeSound(new AISound 
+			{
+				fromCharacter = CharacterMainControl.Main,
+				fromObject = CharacterMainControl.Main.gameObject,
+				pos = CharacterMainControl.Main.transform.position,
+				fromTeam = CharacterMainControl.Main.Team,
+				soundType = SoundTypes.unknowNoise,
+				radius = 15f
+			});
 		}
 	}
 
