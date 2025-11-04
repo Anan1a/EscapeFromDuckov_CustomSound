@@ -6,6 +6,7 @@ using Duckov.UI.DialogueBubbles;
 // using Duckov.Modding;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Newtonsoft.Json;
 
 // 自定义鸭叫Mod的命名空间
 namespace CustomQuack;
@@ -18,6 +19,14 @@ public class ModBehaviour : Duckov.Modding.ModBehaviour
 
 	// 存储音频文件路径的列表
 	private List<string> soundPath = new();
+
+	// 声音组结构体
+	private class SoundGroup
+	{
+		public List<string> Sounds { get; set; } = new List<string>();
+		public List<string> Texts { get; set; } = new List<string>();
+	}
+	private List<SoundGroup> soundGroups = new(); // 声音组数组（可为空）
 
 	/// <summary>
 	/// 当脚本实例被载入时调用，用于初始化Mod
@@ -34,6 +43,9 @@ public class ModBehaviour : Duckov.Modding.ModBehaviour
 	{
 		// 初始化音频文件路径
 		InitSoundFilePath();
+		
+		// 读取JSON配置文件并填充soundGroups
+		ReadJsonConfig();
 		
 		// 如果没有找到任何音频文件，则记录错误信息并返回
 		if (soundPath.Count < 1)
@@ -163,5 +175,131 @@ public class ModBehaviour : Duckov.Modding.ModBehaviour
 		};
 		
 		return bubbleTexts[Random.Range(0, bubbleTexts.Length)];
+	}
+
+	/// <summary>
+	/// 读取JSON配置文件的方法
+	/// </summary>
+	/// <param name="configPath">配置文件路径</param>
+	/// <returns>配置文件内容字符串</returns>
+	private void ReadJsonConfig()
+	{	
+		// 构造配置文件的完整路径
+		string configPath = Path.Combine(GetDllDirectory(), "config.json");
+		
+		// 检查文件是否存在
+		if (!File.Exists(configPath))
+		{
+			Debug.LogError($"配置文件 {configPath} 不存在！");
+			return;
+		}
+
+		try
+		{
+			// 读取文件内容
+			string jsonContent = File.ReadAllText(configPath);
+			
+			// 检查JSON内容是否为空或仅包含空白字符
+			if (string.IsNullOrWhiteSpace(jsonContent))
+			{
+				Debug.LogWarning("配置文件内容为空");
+				return;
+			}
+			
+			// 解析JSON并填充soundGroups
+			var configData = JsonConvert.DeserializeObject<Dictionary<string, object>>(jsonContent);
+			if (configData?.TryGetValue("soundGroups", out var soundGroupsValue) == true)
+			{
+				string soundGroupsJson = soundGroupsValue.ToString();
+				var deserializedGroups = JsonConvert.DeserializeObject<List<SoundGroup>>(soundGroupsJson);
+				
+				if (deserializedGroups?.Count > 0)
+				{
+					// 验证声音文件存在性并转换路径
+					soundGroups = ValidateAndConvertSoundPaths(deserializedGroups);
+					
+					if (soundGroups.Count > 0)
+					{
+						Debug.Log($"成功加载 {soundGroups.Count} 个有效的声音组配置");
+					}
+					else
+					{
+						Debug.LogWarning("没有找到任何有效的声音组配置");
+					}
+				}
+				else
+				{
+					Debug.LogWarning("配置文件中的声音组列表为空");
+				}
+			}
+			else
+			{
+				Debug.LogWarning("配置文件中未找到 soundGroups 节点");
+			}
+		}
+		catch (JsonException ex)
+		{
+			Debug.LogError($"JSON解析错误: {ex.Message}");
+		}
+		catch (System.Exception ex)
+		{
+			Debug.LogError($"读取配置文件时出错: {ex.Message}");
+		}
+	}
+
+	/// <summary>
+	/// 验证声音文件存在性并将相对路径转换为绝对路径
+	/// </summary>
+	/// <param name="groups">声音组列表</param>
+	/// <returns>验证并转换后的声音组列表</returns>
+	private List<SoundGroup> ValidateAndConvertSoundPaths(List<SoundGroup> groups)
+	{
+		if (groups == null || groups.Count == 0)
+		{
+			return new List<SoundGroup>();
+		}
+
+		string dllDirectory = GetDllDirectory();
+		List<SoundGroup> validGroups = new List<SoundGroup>();
+		
+		foreach (var group in groups)
+		{
+			SoundGroup validGroup = new SoundGroup
+			{
+				Sounds = new List<string>(),
+				Texts = new List<string>(group.Texts) // 复制文本列表
+			};
+			
+			// 验证并转换每个声音文件路径
+			foreach (var soundPath in group.Sounds)
+			{
+				// 将相对路径转换为绝对路径
+				string absolutePath = Path.Combine(dllDirectory, soundPath);
+				
+				// 检查文件是否存在
+				if (File.Exists(absolutePath))
+				{
+					validGroup.Sounds.Add(absolutePath);
+					Debug.Log($"CustomQuack: 验证通过 - {soundPath}");
+				}
+				else
+				{
+					Debug.LogWarning($"CustomQuack: 声音文件不存在 - {soundPath} (完整路径: {absolutePath})");
+				}
+			}
+			
+			// 只有当该组中至少有一个有效的声音文件时，才添加到有效组列表中
+			if (validGroup.Sounds.Count > 0)
+			{
+				validGroups.Add(validGroup);
+				Debug.Log($"CustomQuack: 声音组 '{group.GetType().Name}' 已验证，包含 {validGroup.Sounds.Count} 个有效声音文件");
+			}
+			else
+			{
+				Debug.LogWarning($"CustomQuack: 声音组 '{group.GetType().Name}' 中没有有效的声音文件，已跳过");
+			}
+		}
+		
+		return validGroups;
 	}
 }

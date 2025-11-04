@@ -28,5 +28,8 @@
         <Reference Include="$(DuckovPath)$(SubPath)UniTask.dll">
             <Private>false</Private>
         </Reference>
+        <Reference Include="$(DuckovPath)$(SubPath)Newtonsoft.Json.dll">
+            <Private>false</Private>
+        </Reference>
     </ItemGroup>
 </Project>
