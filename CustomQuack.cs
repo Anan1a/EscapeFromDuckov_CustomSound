@@ -2,7 +2,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using Duckov;
-using Duckov.Modding;
+using Duckov.UI.DialogueBubbles;
+// using Duckov.Modding;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -85,9 +86,17 @@ public class ModBehaviour : Duckov.Modding.ModBehaviour
 		{
 			// 随机选择一个音频文件
 			int index = Random.Range(0, soundPath.Count);
-			
+
 			// 播放选中的音频文件（自定义音频）
 			AudioManager.PostCustomSFX(soundPath[index]);
+			
+			// 显示气泡
+			string bubbleText = GetRandomBubbleText();
+			DialogueBubblesManager.Show(
+				text: bubbleText, 
+				target: CharacterMainControl.Main.transform
+			);
+			
 			
 			// 通知AI有声音产生，确保敌人能被吸引
 			AIMainBrain.MakeSound(new AISound 
@@ -120,17 +129,39 @@ public class ModBehaviour : Duckov.Modding.ModBehaviour
 		for (int i = 0; i < 99; i++)
 		{
 			// 构造音频文件的完整路径
-			string text = GetDllDirectory() + "/" + i + ".wav";
-			
+			string text = GetDllDirectory() + "/" + i + ".ogg";
+
 			// 检查文件是否存在
 			if (File.Exists(text))
 			{
 				// 如果文件存在，则将其路径添加到列表中
 				soundPath.Add(text);
-				
+
 				// 记录日志信息
 				Debug.Log("CustomQuack : 已加载音频 " + text);
 			}
 		}
+	}
+	
+	/// <summary>
+	/// 获取随机气泡文本
+	/// </summary>
+	/// <returns>随机的鸭叫文本</returns>
+	private string GetRandomBubbleText()
+	{
+		string[] bubbleTexts = {
+			"嘎嘎！",
+			"嘎~",
+			"嘎嘎嘎！",
+			"呱呱！",
+			"呱~",
+			"鸭鸭！",
+			"嘎嘎嘎嘎！",
+			"呱呱呱！",
+			"我是鸭子！",
+			"听我说！"
+		};
+		
+		return bubbleTexts[Random.Range(0, bubbleTexts.Length)];
 	}
 }

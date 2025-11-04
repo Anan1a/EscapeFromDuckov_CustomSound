@@ -25,5 +25,8 @@
         <Reference Include="$(DuckovPath)$(SubPath)*Unity*">
             <Private>false</Private>
         </Reference>
+        <Reference Include="$(DuckovPath)$(SubPath)UniTask.dll">
+            <Private>false</Private>
+        </Reference>
     </ItemGroup>
 </Project>
