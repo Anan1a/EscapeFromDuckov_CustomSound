@@ -3,17 +3,20 @@
     {
       "name": "普通鸭叫",
       "sounds": ["0.wav", "1.wav", "2.wav"],
-      "texts": ["嘎嘎！", "嘎~", "嘎嘎嘎！"]
+      "texts": ["嘎嘎！", "嘎~", "嘎嘎嘎！"],
+      "radius": 15
     },
     {
       "name": "愤怒鸭叫",
       "sounds": ["angry1.wav", "angry2.wav"],
-      "texts": ["呱呱！", "呱~", "我是愤怒的鸭子！"]
+      "texts": ["呱呱！", "呱~", "我是愤怒的鸭子！"],
+      "radius": 25
     },
     {
       "name": "可爱鸭叫",
       "sounds": ["cute1.wav", "cute2.wav", "cute3.wav"],
-      "texts": ["鸭鸭！", "嘎嘎嘎嘎！", "听我说！"]
+      "texts": ["鸭鸭！", "嘎嘎嘎嘎！", "听我说！"],
+      "radius": 10
     }
   ]
 }
