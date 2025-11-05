@@ -61,7 +61,7 @@ public static class ReadConfig
 			}
 			
 			// 将soundGroups的值转换为字符串，准备进行第二阶段反序列化
-			string soundGroupsJson = soundGroupsValue.ToString();
+			string soundGroupsJson = soundGroupsValue?.ToString() ?? "[]";
 			
 			// 第二阶段：将soundGroups JSON数组反序列化为SoundGroup对象列表
 			var deserializedGroups = JsonConvert.DeserializeObject<List<SoundGroup>>(soundGroupsJson);

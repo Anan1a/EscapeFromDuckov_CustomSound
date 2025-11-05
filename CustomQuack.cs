@@ -17,13 +17,7 @@ public class ModBehaviour : Duckov.Modding.ModBehaviour
 {
 	// 定义一个新的输入动作，用于替代原有的鸭叫按键
 	private InputAction newAction = new();
-
-	// 存储音频文件路径的列表
-	private List<string> soundPath = new();
-
 	private List<SoundGroup> soundGroups = new(); // 声音组数组
-	private string dllDirectory = ProjectPaths.DllDirectory; // DLL目录路径
-	private string soundsDirectory = ProjectPaths.SoundsDirectory; // 音效资源目录路径
 
 	/// <summary>
 	/// 当脚本实例被载入时调用，用于初始化Mod
@@ -38,17 +32,13 @@ public class ModBehaviour : Duckov.Modding.ModBehaviour
 	/// </summary>
 	private void OnEnable()
 	{
-
-		// 初始化音频文件路径
-		InitSoundFilePath();
-		
 		// 读取JSON配置文件并填充soundGroups
 		soundGroups = ReadConfig.ReadJsonConfig();
 		
-		// 如果没有找到任何音频文件，则记录错误信息并返回
-		if (soundPath.Count < 1)
+		// 如果没有任何声音组，则记录错误信息并返回
+		if (soundGroups.Count == 0)
 		{
-			Debug.Log("CustomQuack：声音文件不存在！！该 Mod 不会生效！！");
+			Debug.Log("CustomQuack：声音组不存在！！该 Mod 不会生效！！");
 			return;
 		}
 		
@@ -94,75 +84,41 @@ public class ModBehaviour : Duckov.Modding.ModBehaviour
 		// 确保主角控制器存在
 		if (CharacterMainControl.Main != null)
 		{
-			// 随机选择一个音频文件
-			int index = Random.Range(0, soundPath.Count);
-
-			// 播放选中的音频文件（自定义音频）
-			AudioManager.PostCustomSFX(soundPath[index]);
-			
-			// 显示气泡
-			string bubbleText = GetRandomBubbleText();
-			DialogueBubblesManager.Show(
-				text: bubbleText, 
-				target: CharacterMainControl.Main.transform
-			);
-			
-			
-			// 通知AI有声音产生，确保敌人能被吸引
-			AIMainBrain.MakeSound(new AISound 
+			// 随机选择一个声音组
+			SelectedSound? selectedSound = SoundGroupRandomSelector.GetRandomSelectedSound(soundGroups);
+			if (selectedSound == null)
 			{
-				fromCharacter = CharacterMainControl.Main,
-				fromObject = CharacterMainControl.Main.gameObject,
-				pos = CharacterMainControl.Main.transform.position,
-				fromTeam = CharacterMainControl.Main.Team,
-				soundType = SoundTypes.unknowNoise,
-				radius = 15f
-			});
-		}
-	}
-
-	/// <summary>
-	/// 初始化音频文件路径列表，搜索0.wav到98.wav的文件
-	/// </summary>
-	private void InitSoundFilePath()
-	{
-		// 循环查找编号从0到98的音频文件
-		for (int i = 0; i < 99; i++)
-		{
-			// 构造音频文件的完整路径
-			string text = Path.Combine(dllDirectory, i + ".ogg");
-
-			// 检查文件是否存在
-			if (File.Exists(text))
-			{
-				// 如果文件存在，则将其路径添加到列表中
-				soundPath.Add(text);
-
-				// 记录日志信息
-				Debug.Log("CustomQuack : 已加载音频 " + text);
+				Debug.Log("CustomQuack：随机选择的声音组为空！！");
+				return;
 			}
+
+			if (selectedSound.Sound != null) // 检查随机选择的声音是否有效
+			{
+				// 播放选中的音频文件（自定义音频）
+				AudioManager.PostCustomSFX(selectedSound.Sound);
+
+				// 通知AI有声音产生，确保敌人能被吸引
+				AIMainBrain.MakeSound(new AISound
+				{
+					fromCharacter = CharacterMainControl.Main,
+					fromObject = CharacterMainControl.Main.gameObject,
+					pos = CharacterMainControl.Main.transform.position,
+					fromTeam = CharacterMainControl.Main.Team,
+					soundType = SoundTypes.unknowNoise,
+					radius = 15f
+				});
+			}
+
+			if (selectedSound.Text != null) // 检查是否有气泡文本需要显示
+            {
+				// 显示气泡
+				DialogueBubblesManager.Show(
+					text: selectedSound.Text,
+					target: CharacterMainControl.Main.transform
+				);
+            }
+
+
 		}
-	}
-	
-	/// <summary>
-	/// 获取随机气泡文本
-	/// </summary>
-	/// <returns>随机的鸭叫文本</returns>
-	private string GetRandomBubbleText()
-	{
-		string[] bubbleTexts = {
-			"嘎嘎！",
-			"嘎~",
-			"嘎嘎嘎！",
-			"呱呱！",
-			"呱~",
-			"鸭鸭！",
-			"嘎嘎嘎嘎！",
-			"呱呱呱！",
-			"我是鸭子！",
-			"听我说！"
-		};
-		
-		return bubbleTexts[Random.Range(0, bubbleTexts.Length)];
 	}
 }
