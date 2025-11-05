@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 // 自定义鸭叫Mod的命名空间
 namespace CustomQuack;
 
