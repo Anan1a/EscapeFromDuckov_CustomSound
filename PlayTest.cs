@@ -22,7 +22,7 @@ internal static class QuackPlayer
 		if (CharacterMainControl.Main != null)
 		{
 			// 随机选择一个声音组
-			SelectedSound? selectedSound = SoundGroupRandomSelector.GetRandomSelectedSound(soundGroups);
+			SelectedSound? selectedSound = SoundSelector.PickSound(soundGroups);
 			if (selectedSound == null)
 			{
 				Debug.Log("CustomQuack：随机选择的声音组为空！！");
