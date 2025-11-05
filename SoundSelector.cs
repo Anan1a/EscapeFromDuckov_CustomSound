@@ -6,7 +6,7 @@ namespace CustomSound;
 /// <summary>
 /// 声音组随机选择器，提供从声音组列表中随机选取有效声音的工具方法
 /// </summary>
-internal static class SoundSelector
+static class SoundSelector
 {
     /// <summary>
     /// 从声音组列表中随机选择一个有效的声音

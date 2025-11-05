@@ -13,7 +13,7 @@ namespace CustomSound;
 /// </list>
 /// 通常由SoundGroupRandomSelector类使用，用于表示随机选择的结果。
 /// </remarks>
-internal class SelectedSound
+class SelectedSound
 {
     /// <summary>
     /// 声音组的名称，用于标识和调试（可选）

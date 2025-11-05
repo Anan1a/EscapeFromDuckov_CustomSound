@@ -14,7 +14,7 @@ namespace CustomSound;
 /// <item>声音传播半径</item>
 /// </list>
 /// </remarks>
-internal class SoundGroup
+class SoundGroup
 {
     /// <summary>
     /// 声音组的名称，用于标识和调试（可选）

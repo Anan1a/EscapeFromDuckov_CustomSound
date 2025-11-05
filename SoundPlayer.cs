@@ -8,7 +8,7 @@ namespace CustomSound;
 /// <summary>
 /// 声音播放器，负责处理自定义声音的播放逻辑
 /// </summary>
-internal static class SoundPlayer
+static class SoundPlayer
 {
     /// <summary>
 	/// 播放自定义声音的回调函数
@@ -46,22 +46,24 @@ internal static class SoundPlayer
 			}
 
 			if (selectedSound.Text != null) // 检查是否有气泡文本需要显示
-            {
+			{
 				// 显示气泡
 				DialogueBubblesManager.Show(
 					text: selectedSound.Text,
 					target: CharacterMainControl.Main.transform
 				);
-            } else {
-				// 隐藏气泡（用瞬间气泡实现）
-				DialogueBubblesManager.Show(
-					text: string.Empty,
-					target: CharacterMainControl.Main.transform,
-					speed: 0f, // 瞬间显示
-					duration: 0f // 立即消失
-				);
-
 			}
+			// else
+			// {
+			// 	// 隐藏气泡（用瞬间气泡实现）
+			// 	DialogueBubblesManager.Show(
+			// 		text: string.Empty,
+			// 		target: CharacterMainControl.Main.transform,
+			// 		speed: 0f, // 瞬间显示
+			// 		duration: 0f // 立即消失
+			// 	);
+
+			// }
 		}
 	}
 }

@@ -6,7 +6,7 @@ namespace CustomSound;
 /// <summary>
 /// 项目路径管理工具类，提供项目相关目录的访问方法
 /// </summary>
-public static class ProjectPaths
+static class ProjectPaths
 {
     // 私有缓存字段（readonly）
 

@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace CustomSound;
 
-public static class ReadConfig
+static class ReadConfig
 {
     private static readonly string dllDirectory = ProjectPaths.DllDirectory; // DLL目录路径
 	private static readonly string soundsDirectory = ProjectPaths.SoundsDirectory; // 音效资源目录路径
@@ -19,7 +19,7 @@ public static class ReadConfig
 	/// 该类对应config.json文件的最外层结构，
 	/// 通过JsonProperty特性映射JSON中的"soundGroups"字段
 	/// </remarks>
-	internal class ConfigRoot
+	private  class ConfigRoot
 	{
 		/// <summary>
 		/// 声音组列表，包含所有可用的声音组配置
