@@ -2,8 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// 自定义鸭叫Mod的命名空间
-namespace CustomQuack;
+namespace CustomSound;
 
 // 继承自游戏Mod系统的基础行为类
 public class ModBehaviour : Duckov.Modding.ModBehaviour
@@ -45,7 +44,7 @@ public class ModBehaviour : Duckov.Modding.ModBehaviour
 		newAction.AddBinding(inputAction.controls[0]);
 		
 		// 注册新动作的回调函数
-		newAction.performed += (context) => QuackPlayer.PlayTest(soundGroups);
+		newAction.performed += (context) => SoundPlayer.PlayCustomSound(soundGroups);
 		
 		// 启用新动作
 		newAction.Enable();
@@ -59,7 +58,7 @@ public class ModBehaviour : Duckov.Modding.ModBehaviour
 	private void OnDisable()
 	{
 		// 取消注册新动作的回调函数
-		newAction.performed -= (context) => QuackPlayer.PlayTest(soundGroups);
+		newAction.performed -= (context) => SoundPlayer.PlayCustomSound(soundGroups);
 		
 		// 禁用新动作
 		newAction.Disable();

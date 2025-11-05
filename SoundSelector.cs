@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CustomQuack;
+namespace CustomSound;
 
 /// <summary>
 /// 声音组随机选择器，提供从声音组列表中随机选取有效声音的工具方法

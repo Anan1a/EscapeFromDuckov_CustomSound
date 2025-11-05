@@ -1,8 +1,7 @@
 using System.IO;
 using System.Reflection;
 
-// 自定义鸭叫Mod的命名空间
-namespace CustomQuack;
+namespace CustomSound;
 
 /// <summary>
 /// 项目路径管理工具类，提供项目相关目录的访问方法

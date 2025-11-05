@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 
-// 自定义鸭叫Mod的命名空间
-namespace CustomQuack;
+namespace CustomSound;
 
 /// <summary>
 /// 声音组数据模型类，用于存储一组相关的声音文件、文本和属性

@@ -1,5 +1,4 @@
-// 自定义鸭叫Mod的命名空间
-namespace CustomQuack;
+namespace CustomSound;
 
 /// <summary>
 /// 随机选择的声音载体类，用于存储从SoundGroup中随机选择的一个声音及其相关信息

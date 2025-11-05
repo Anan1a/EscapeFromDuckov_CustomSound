@@ -4,8 +4,7 @@ using System.Linq;
 using UnityEngine;
 using Newtonsoft.Json;
 
-// 自定义鸭叫Mod的命名空间
-namespace CustomQuack;
+namespace CustomSound;
 
 public static class ReadConfig
 {

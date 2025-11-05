@@ -2,21 +2,20 @@ using System.Collections.Generic;
 using Duckov;
 using Duckov.UI.DialogueBubbles;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-namespace CustomQuack;
+namespace CustomSound;
 
 /// <summary>
-/// 鸭叫播放器，负责处理自定义鸭叫的播放逻辑
+/// 声音播放器，负责处理自定义声音的播放逻辑
 /// </summary>
-internal static class QuackPlayer
+internal static class SoundPlayer
 {
     /// <summary>
-	/// 播放自定义鸭叫声音的回调函数
+	/// 播放自定义声音的回调函数
 	/// </summary>
 	/// <param name="context">输入动作上下文</param>
-    // internal static void PlayTest(InputAction.CallbackContext context, List<SoundGroup> soundGroups)
-	internal static void PlayTest(List<SoundGroup> soundGroups)
+    // internal static void PlayCustomSound(InputAction.CallbackContext context, List<SoundGroup> soundGroups)
+	internal static void PlayCustomSound(List<SoundGroup> soundGroups)
 	{
 		// 确保主角控制器存在
 		if (CharacterMainControl.Main != null)
