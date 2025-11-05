@@ -46,7 +46,7 @@ internal static class QuackPlayer
 					pos = CharacterMainControl.Main.transform.position,
 					fromTeam = CharacterMainControl.Main.Team,
 					soundType = SoundTypes.unknowNoise,
-					radius = 15f
+					radius = selectedSound.Radius
 				});
 			}
 
@@ -57,9 +57,16 @@ internal static class QuackPlayer
 					text: selectedSound.Text,
 					target: CharacterMainControl.Main.transform
 				);
-            }
+            } else {
+				// 隐藏气泡（用瞬间气泡实现）
+				DialogueBubblesManager.Show(
+					text: string.Empty,
+					target: CharacterMainControl.Main.transform,
+					speed: 0f, // 瞬间显示
+					duration: 0f // 立即消失
+				);
 
-
+			}
 		}
 	}
 }
