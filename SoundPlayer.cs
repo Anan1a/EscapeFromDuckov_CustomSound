@@ -10,6 +10,11 @@ namespace CustomSound;
 /// </summary>
 static class SoundPlayer
 {
+	/// <summary>
+	/// 上次是否有气泡文本被显示
+	/// </summary>
+	private static bool hadTextLastTime;
+
     /// <summary>
 	/// 播放自定义声音的回调函数
 	/// </summary>
@@ -43,6 +48,7 @@ static class SoundPlayer
 					soundType = SoundTypes.unknowNoise,
 					radius = selectedSound.Radius
 				});
+				hadTextLastTime = true; // 标记上次有气泡文本被显示
 			}
 
 			if (selectedSound.Text != null) // 检查是否有气泡文本需要显示
@@ -53,17 +59,17 @@ static class SoundPlayer
 					target: CharacterMainControl.Main.transform
 				);
 			}
-			// else
-			// {
-			// 	// 隐藏气泡（用瞬间气泡实现）
-			// 	DialogueBubblesManager.Show(
-			// 		text: string.Empty,
-			// 		target: CharacterMainControl.Main.transform,
-			// 		speed: 0f, // 瞬间显示
-			// 		duration: 0f // 立即消失
-			// 	);
-
-			// }
+			else if (hadTextLastTime)
+			{
+				// 隐藏气泡（用瞬间气泡实现）
+				DialogueBubblesManager.Show(
+					text: string.Empty,
+					target: CharacterMainControl.Main.transform,
+					speed: 0f, // 瞬间显示
+					duration: 0f // 立即消失
+				);
+				hadTextLastTime = false; // 标记上次没有气泡文本被显示
+			}
 		}
 	}
 }
