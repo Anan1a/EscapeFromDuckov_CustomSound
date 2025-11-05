@@ -45,7 +45,7 @@ public class ModBehaviour : Duckov.Modding.ModBehaviour
 		newAction.AddBinding(inputAction.controls[0]);
 		
 		// 注册新动作的回调函数
-		newAction.performed += (context) => QuackPlayer.PlayTest(context, soundGroups);
+		newAction.performed += (context) => QuackPlayer.PlayTest(soundGroups);
 		
 		// 启用新动作
 		newAction.Enable();
@@ -59,7 +59,7 @@ public class ModBehaviour : Duckov.Modding.ModBehaviour
 	private void OnDisable()
 	{
 		// 取消注册新动作的回调函数
-		newAction.performed -= (context) => QuackPlayer.PlayTest(context, soundGroups);
+		newAction.performed -= (context) => QuackPlayer.PlayTest(soundGroups);
 		
 		// 禁用新动作
 		newAction.Disable();

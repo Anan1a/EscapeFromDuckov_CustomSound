@@ -15,7 +15,8 @@ internal static class QuackPlayer
 	/// 播放自定义鸭叫声音的回调函数
 	/// </summary>
 	/// <param name="context">输入动作上下文</param>
-    internal static void PlayTest(InputAction.CallbackContext context, List<SoundGroup> soundGroups)
+    // internal static void PlayTest(InputAction.CallbackContext context, List<SoundGroup> soundGroups)
+	internal static void PlayTest(List<SoundGroup> soundGroups)
 	{
 		// 确保主角控制器存在
 		if (CharacterMainControl.Main != null)
