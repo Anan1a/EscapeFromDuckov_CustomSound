@@ -27,12 +27,18 @@ class SoundGroup
     /// </summary>
     /// <value>默认值为空列表</value>
     public List<string> Sounds { get; set; } = new();
-    
+
     /// <summary>
     /// 气泡文本列表，存储与该声音组关联的显示文本
     /// </summary>
     /// <value>默认值为空列表</value>
-    public List<string> Texts { get; set; } = new();
+    public List<string?> Texts { get; set; } = new();
+    
+    /// <summary>
+    /// 声音类型，定义该组声音的类型
+    /// </summary>
+    /// <value>默认值为unknowNoise，表示未知噪声类型</value>
+    public SoundTypes SoundType { get; set; } = SoundTypes.unknowNoise;
     
     /// <summary>
     /// 声音传播半径，定义该组声音能传播的距离

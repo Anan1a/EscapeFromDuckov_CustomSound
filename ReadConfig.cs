@@ -42,7 +42,7 @@ static class ReadConfig
 	/// 4. 验证声音文件存在性并转换相对路径为绝对路径
 	/// 5. 将最终的有效声音组存储到类的soundGroups字段中
 	/// </remarks>
-	internal static List<SoundGroup> ReadJsonConfig()
+	public static List<SoundGroup> ReadJsonConfig()
 	{
         // 构造配置文件的完整路径，使用Path.Combine确保跨平台兼容性
         string configPath = Path.Combine(dllDirectory, "config.json");
@@ -66,12 +66,6 @@ static class ReadConfig
 			// 一次性反序列化整个配置
 			var config = JsonConvert.DeserializeObject<ConfigRoot>(jsonContent);
 			var rawGroups = config?.SoundGroups ?? [];
-
-			if (rawGroups.Count == 0)
-			{
-				Debug.LogWarning("配置文件中未包含有效的声音组");
-				return [];
-			}
 
 			// 验证并转换路径
 			var validGroups = ValidateAndConvertSoundPaths(rawGroups);
@@ -108,6 +102,7 @@ static class ReadConfig
 	{
 		if (groups == null || groups.Count == 0)
 		{
+			Debug.LogWarning("配置文件中未包含有效的声音组");
 			return [];
 		}
 
@@ -119,7 +114,8 @@ static class ReadConfig
 			{
 				Name = group.Name, // 复制名称
 				Sounds = [],
-				Texts = [..group.Texts], // 复制文本列表
+				Texts = [.. group.Texts], // 复制文本列表
+				SoundType = group.SoundType, // 复制声音类型
 				Radius = group.Radius // 复制半径
 			};
 			

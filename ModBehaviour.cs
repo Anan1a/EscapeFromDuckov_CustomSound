@@ -9,7 +9,7 @@ public class ModBehaviour : Duckov.Modding.ModBehaviour
 {
 	// 定义一个新的输入动作，用于替代原有的鸭叫按键
 	private InputAction newAction = new();
-	private List<SoundGroup> soundGroups = new(); // 声音组数组
+	private List<SoundGroup> soundGroups = []; // 声音组数组
 
 	/// <summary>
 	/// 当脚本实例被载入时调用，用于初始化Mod

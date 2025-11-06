@@ -13,7 +13,7 @@ static class SoundSelector
     /// </summary>
     /// <param name="soundGroups">声音组列表，可为空</param>
     /// <returns>选中的声音信息，如果列表为空或无效则返回null</returns>
-    internal static SelectedSound? PickSound(List<SoundGroup>? soundGroups)
+    public static SelectedSound? PickSound(List<SoundGroup>? soundGroups)
     {
         // 使用模式匹配检查列表是否有效且包含元素
         // is not { Count: > 0 } 等价于 soundGroups == null || soundGroups.Count <= 0

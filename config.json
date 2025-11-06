@@ -1,4 +1,10 @@
 {
+  "//": "CustomSound Mod 配置文件",
+  "//": "声音类型(soundType)说明:",
+  "//": "1. unknowNoise(未知噪音、默认)",
+  "//": "2. combatSound(战斗声音)",
+  "//": "3. grenadeDropSound(手雷掉落声音)",
+  "//": "4. alert(警报)",
   "soundGroups": [
     {
       "name": "普通鸭叫",
@@ -10,12 +16,14 @@
       "name": "愤怒鸭叫",
       "sounds": ["angry1.wav", "angry2.wav"],
       "texts": ["呱呱！", "呱~", "我是愤怒的鸭子！"],
+      "soundType": "combatSound",
       "radius": 25
     },
     {
       "name": "可爱鸭叫",
       "sounds": ["cute1.wav", "cute2.wav", "cute3.wav"],
       "texts": ["鸭鸭！", "嘎嘎嘎嘎！", "听我说！"],
+      "soundType": "unknowNoise",
       "radius": 10
     }
   ]

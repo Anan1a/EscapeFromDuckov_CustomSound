@@ -19,8 +19,8 @@ static class SoundPlayer
 	/// 播放自定义声音的回调函数
 	/// </summary>
 	/// <param name="context">输入动作上下文</param>
-    // internal static void PlayCustomSound(InputAction.CallbackContext context, List<SoundGroup> soundGroups)
-	internal static void PlayCustomSound(List<SoundGroup> soundGroups)
+    // public static void PlayCustomSound(InputAction.CallbackContext context, List<SoundGroup> soundGroups)
+	public static void PlayCustomSound(List<SoundGroup> soundGroups)
 	{
 		// 确保主角控制器存在
 		if (CharacterMainControl.Main != null)
@@ -33,7 +33,7 @@ static class SoundPlayer
 				return;
 			}
 
-			if (selectedSound.Sound != null) // 检查随机选择的声音是否有效
+			if (!string.IsNullOrEmpty(selectedSound.Sound)) // 检查随机选择的声音是否有效
 			{
 				// 播放选中的音频文件（自定义音频）
 				AudioManager.PostCustomSFX(selectedSound.Sound);
