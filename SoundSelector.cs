@@ -30,6 +30,7 @@ static class SoundSelector
             Name = group.Name, // 声音组名称
             Sound = group.Sounds is { Count: > 0 } ? group.Sounds[Random.Range(0, group.Sounds.Count)] : null,  // 随机选择声音，如果没有声音则为null
             Text = group.Texts is { Count: > 0 } ? group.Texts[Random.Range(0, group.Texts.Count)] : null,      // 随机选择文本，如果没有文本则为null
+            SoundType = group.SoundType, // 声音类型
             Radius = group.Radius // 声音传播半径
         };
     }

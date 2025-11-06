@@ -45,7 +45,7 @@ static class SoundPlayer
 					fromObject = CharacterMainControl.Main.gameObject,
 					pos = CharacterMainControl.Main.transform.position,
 					fromTeam = CharacterMainControl.Main.Team,
-					soundType = SoundTypes.unknowNoise,
+					soundType = selectedSound.SoundType,
 					radius = selectedSound.Radius
 				});
 				hadTextLastTime = true; // 标记上次有气泡文本被显示

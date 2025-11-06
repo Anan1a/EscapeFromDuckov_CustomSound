@@ -34,6 +34,12 @@ class SelectedSound
     public string? Text { get; set; } = string.Empty;
     
     /// <summary>
+    /// 声音类型，定义该声音的行为和属性
+    /// </summary>
+    /// <value>默认值为SoundTypes.unknowNoise，表示未知噪声类型</value>
+    public SoundTypes SoundType { get; set; } = SoundTypes.unknowNoise;
+
+    /// <summary>
     /// 声音传播半径，定义该声音能传播的距离
     /// </summary>
     /// <value>默认值为15f，表示声音传播半径为15个单位</value>
