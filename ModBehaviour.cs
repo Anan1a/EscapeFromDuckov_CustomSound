@@ -11,7 +11,7 @@ public class ModBehaviour : Duckov.Modding.ModBehaviour
 	private InputAction newAction = new();
 
 	// 读取JSON配置文件并填充soundGroups
-	private List<SoundGroup> soundGroups = ReadConfig.ReadJsonConfig(); // 声音组数组
+	private List<SoundGroup> soundGroups = []; // 声音组数组
 
 	/// <summary>
 	/// 当脚本实例被载入时调用，用于初始化Mod
@@ -26,6 +26,9 @@ public class ModBehaviour : Duckov.Modding.ModBehaviour
 	/// </summary>
 	private void OnEnable()
 	{
+		// 重新读取JSON配置文件并填充soundGroups
+		soundGroups = ReadConfig.ReadJsonConfig();
+
 		// 获取游戏中原有的鸭叫输入动作
 		InputAction inputAction = GameManager.MainPlayerInput.actions.FindAction("Quack");
 		

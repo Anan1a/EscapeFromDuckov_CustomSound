@@ -26,20 +26,22 @@ class SoundGroup
     /// 声音文件路径列表，存储该组所有可用的声音文件
     /// </summary>
     /// <value>默认值为空列表</value>
-    public List<string> Sounds { get; set; } = new();
+    public List<string> Sounds { get; set; } = [];
 
     /// <summary>
     /// 气泡文本列表，存储与该声音组关联的显示文本
     /// </summary>
     /// <value>默认值为空列表</value>
-    public List<string?> Texts { get; set; } = new();
-    
+    public List<string?> Texts { get; set; } = [];
+
     /// <summary>
     /// 声音类型，定义该组声音的类型
     /// </summary>
     /// <value>默认值为unknowNoise，表示未知噪声类型</value>
-    public SoundTypes SoundType { get; set; } = SoundTypes.unknowNoise;
+    public string? SoundType { get; set; } = "unknowNoise"; // 声音类型，避免反序列化异常
+    public SoundTypes SoundTypeEnum { get; set; } = SoundTypes.unknowNoise; // 声音类型枚举，用于代码处理
     
+
     /// <summary>
     /// 声音传播半径，定义该组声音能传播的距离
     /// </summary>

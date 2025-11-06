@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -128,6 +129,13 @@ static class ReadConfig
 				int validSoundsCount = group.Sounds.Count(s => !string.IsNullOrEmpty(s));
 				Debug.Log($"CustomSound: 声音组 '{group.Name ?? "未命名"}' 已处理，包含 {validSoundsCount}/{group.Sounds.Count} 个有效声音文件");
 			}
+
+			if (!string.IsNullOrEmpty(group.SoundType) &&
+				Enum.TryParse(group.SoundType, ignoreCase: true, out SoundTypes parsed))
+			{
+				group.SoundTypeEnum = parsed;
+			}
+
 			if (group.Weight == -1)
 			{
 				int soundCount = Mathf.Max(1, group.Sounds?.Count ?? 0);
