@@ -101,32 +101,39 @@ static class ReadConfig
 		
 		foreach (var group in groups)
 		{
-			// 跳过空声音组
-			if (group?.Sounds == null) continue; 
-			
-			// 验证并转换每个声音文件路径
-			for (int i = 0; i < group.Sounds.Count; i++)
-			{
-				// 将相对路径转换为绝对路径
-				string soundPath = group.Sounds[i];
-				string absoluteSoundPath = Path.Combine(soundsDirectory, soundPath);
+			if (group is null) continue; // 跳过空组
 
-				// 检查文件是否存在
-				if (File.Exists(absoluteSoundPath))
+			if (group is { Sounds: not null }) // 跳过空声音组
+			{
+				// 验证并转换每个声音文件路径
+				for (int i = 0; i < group.Sounds.Count; i++)
 				{
-					group.Sounds[i] = absoluteSoundPath;
-					Debug.Log($"CustomSound: 验证通过 - {soundPath}");
+					// 将相对路径转换为绝对路径
+					string soundPath = group.Sounds[i];
+					string absoluteSoundPath = Path.Combine(soundsDirectory, soundPath);
+
+					// 检查文件是否存在
+					if (File.Exists(absoluteSoundPath))
+					{
+						group.Sounds[i] = absoluteSoundPath;
+						Debug.Log($"CustomSound: 验证通过 - {soundPath}");
+					}
+					else
+					{
+						// 文件不存在时添加空字符串，保持列表长度一致
+						group.Sounds[i] = string.Empty;
+						Debug.LogWarning($"CustomSound: 声音文件不存在 - {soundPath}，已替换为空字符串");
+					}
 				}
-				else
-				{
-					// 文件不存在时添加空字符串，保持列表长度一致
-					group.Sounds[i] = string.Empty;
-					Debug.LogWarning($"CustomSound: 声音文件不存在 - {soundPath}，已替换为空字符串");
-				}
+				int validSoundsCount = group.Sounds.Count(s => !string.IsNullOrEmpty(s));
+				Debug.Log($"CustomSound: 声音组 '{group.Name ?? "未命名"}' 已处理，包含 {validSoundsCount}/{group.Sounds.Count} 个有效声音文件");
 			}
-			
-			int validSoundsCount = group.Sounds.Count(s => !string.IsNullOrEmpty(s));
-			Debug.Log($"CustomSound: 声音组 '{group.Name ?? "未命名"}' 已处理，包含 {validSoundsCount}/{group.Sounds.Count} 个有效声音文件");
+			if (group.Weight == -1)
+			{
+				int soundCount = Mathf.Max(1, group.Sounds?.Count ?? 0);
+				int textCount  = Mathf.Max(1, group.Texts?.Count  ?? 0);
+				group.Weight = soundCount * textCount;
+			}
 		}
 	}
 }

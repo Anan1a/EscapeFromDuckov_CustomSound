@@ -27,7 +27,7 @@ static class SoundPlayer
 		{
 			// 随机选择一个声音组
 			SelectedSound? selectedSound = SoundSelector.PickSound(soundGroups);
-			if (selectedSound == null)
+			if (selectedSound is null)
 			{
 				Debug.Log("CustomSound：随机选择的声音组为空！！");
 				return;

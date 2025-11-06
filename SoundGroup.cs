@@ -45,4 +45,10 @@ class SoundGroup
     /// </summary>
     /// <value>默认值为15f，表示声音传播半径为15个单位</value>
     public float Radius { get; set; } = 15f;
+    
+    /// <summary>
+    /// 权重，定义该声音组的播放优先级或概率
+    /// </summary>
+    /// <value>默认值为-1，表示未设置，默认将由声音和文本的总数计算得到</value>
+    public int Weight { get; set; } = -1;
 }
