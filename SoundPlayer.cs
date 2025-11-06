@@ -29,7 +29,7 @@ static class SoundPlayer
 			SelectedSound? selectedSound = SoundSelector.PickSound(soundGroups);
 			if (selectedSound == null)
 			{
-				Debug.Log("CustomQuack：随机选择的声音组为空！！");
+				Debug.Log("CustomSound：随机选择的声音组为空！！");
 				return;
 			}
 

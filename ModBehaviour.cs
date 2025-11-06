@@ -9,14 +9,16 @@ public class ModBehaviour : Duckov.Modding.ModBehaviour
 {
 	// 定义一个新的输入动作，用于替代原有的鸭叫按键
 	private InputAction newAction = new();
-	private List<SoundGroup> soundGroups = []; // 声音组数组
+
+	// 读取JSON配置文件并填充soundGroups
+	private List<SoundGroup> soundGroups = ReadConfig.ReadJsonConfig(); // 声音组数组
 
 	/// <summary>
 	/// 当脚本实例被载入时调用，用于初始化Mod
 	/// </summary>
 	private void Awake()
 	{
-		Debug.Log("CustomQuack Loaded!!!");
+		Debug.Log("CustomSound 已加载。");
 	}
 
 	/// <summary>
@@ -24,16 +26,6 @@ public class ModBehaviour : Duckov.Modding.ModBehaviour
 	/// </summary>
 	private void OnEnable()
 	{
-		// 读取JSON配置文件并填充soundGroups
-		soundGroups = ReadConfig.ReadJsonConfig();
-		
-		// 如果没有任何声音组，则记录错误信息并返回
-		if (soundGroups.Count == 0)
-		{
-			Debug.Log("CustomQuack：声音组不存在！！该 Mod 不会生效！！");
-			return;
-		}
-		
 		// 获取游戏中原有的鸭叫输入动作
 		InputAction inputAction = GameManager.MainPlayerInput.actions.FindAction("Quack");
 		
@@ -49,7 +41,7 @@ public class ModBehaviour : Duckov.Modding.ModBehaviour
 		// 启用新动作
 		newAction.Enable();
 		
-		Debug.Log("CustomQuack：载入完成。");
+		Debug.Log("CustomSound：载入完成。");
 	}
 
 	/// <summary>
@@ -62,6 +54,8 @@ public class ModBehaviour : Duckov.Modding.ModBehaviour
 		
 		// 禁用新动作
 		newAction.Disable();
+		
+		Debug.Log("CustomSound：已禁用。"); 
 		
 		// 重新启用原有的鸭叫输入动作
 		GameManager.MainPlayerInput.actions.FindAction("Quack").Enable();
