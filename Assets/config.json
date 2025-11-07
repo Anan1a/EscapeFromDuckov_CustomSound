@@ -2,11 +2,11 @@
   "//": "CustomSound Mod 配置文件",
   "//": "可配置项:",
   "//": "1. name(声音组名称)",
-  "//": "2. sounds(声音文件列表)",
-  "//": "3. texts(气泡文本列表)",
+  "//": "2. sounds(声音文件列表，缺省表示不使用声音)",
+  "//": "3. texts(气泡文本列表，缺省表示不使用气泡文本，null表示不播放气泡文本)",
   "//": "4. soundType(声音类型，默认unknowNoise)",
   "//": "5. radius(声音传播半径，默认15)",
-  "//": "6. weight(权重，默认值为-1表示根据声音和文本数量计算)",
+  "//": "6. weight(权重，默认值为-1，小于0表示根据声音和文本数量计算)",
   "//": "声音类型(soundType)说明:",
   "//": "1. unknowNoise(未知噪音、默认)",
   "//": "2. combatSound(战斗声音)",
@@ -18,7 +18,8 @@
       "sounds": ["琪露诺baka.wav"],
       "texts": ["笨~蛋", "Ba~~ka", "Ba♡ka"],
       "soundType": "combatSound",
-      "radius": 40
+      "radius": 40,
+      "weight": 10
     },
     {
       "name": "bakabaka",
@@ -30,7 +31,7 @@
     {
       "name": "杂鱼",
       "sounds": ["天音杂鱼.WAV"],
-      "texts": ["杂~鱼♥", "~杂鱼~", "杂~鱼♡"],
+      "texts": ["杂~鱼♥", "~杂鱼~", "杂~鱼♡", null],
       "soundType": "grenadeDropSound",
       "radius": 20
     },
@@ -39,13 +40,15 @@
       "sounds": ["天音雑魚発見.ogg"],
       "texts": ["发现杂鱼~~", "~发现♡杂鱼~", "雑♥魚 発~見~"],
       "soundType": "combatSound",
-      "radius": 24
+      "radius": 24,
+      "weight": -1
     },
     {
       "name": "0721",
       "sounds": ["宁宁0721.WAV"],
       "soundType": "alert",
-      "radius": 35
+      "radius": 35,
+      "weight": 5
     },
     {
       "name": "Ciallo",
@@ -61,7 +64,8 @@
     {
       "name": "无口",
       "texts": ["懒得说话呐", "不想说话的说", "我可是无口系", ""],
-      "radius": 0
+      "radius": 0,
+      "weight": 1
     }
   ]
 }
