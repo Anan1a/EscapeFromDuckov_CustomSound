@@ -28,7 +28,7 @@ static class ReadConfig
 		/// SoundGroup对象的列表，每个SoundGroup代表一个声音组配置
 		/// </value>
 		[JsonProperty("soundGroups")]
-		public List<SoundGroup> SoundGroups { get; set; } = new();
+		public List<SoundGroup> SoundGroups { get; set; } = [];
 	}
 
 	/// <summary>

@@ -15,61 +15,60 @@ static class SoundPlayer
 	/// </summary>
 	private static bool hadTextLastTime;
 
-    /// <summary>
+	/// <summary>
 	/// 播放自定义声音的回调函数
 	/// </summary>
 	/// <param name="context">输入动作上下文</param>
-    // public static void PlayCustomSound(InputAction.CallbackContext context, List<SoundGroup> soundGroups)
+	// public static void PlayCustomSound(InputAction.CallbackContext context, List<SoundGroup> soundGroups)
 	public static void PlayCustomSound(List<SoundGroup> soundGroups)
 	{
-		// 确保主角控制器存在
-		if (CharacterMainControl.Main != null)
+		var main = CharacterMainControl.Main; //缓存 Main
+		if (main == null) return; // 检查主角控制器是否存在
+
+		// 随机选择一个声音组
+		SelectedSound? selectedSound = SoundSelector.PickSound(soundGroups);
+		if (selectedSound is null)
 		{
-			// 随机选择一个声音组
-			SelectedSound? selectedSound = SoundSelector.PickSound(soundGroups);
-			if (selectedSound is null)
-			{
-				Debug.Log("CustomSound：随机选择的声音组为空！！");
-				return;
-			}
+			Debug.Log("CustomSound：随机选择的声音组为空！！");
+			return;
+		}
 
-			if (!string.IsNullOrEmpty(selectedSound.Sound)) // 检查随机选择的声音是否有效
-			{
-				// 播放选中的音频文件（自定义音频）
-				AudioManager.PostCustomSFX(selectedSound.Sound);
+		if (!string.IsNullOrEmpty(selectedSound.Sound)) // 检查随机选择的声音是否有效
+		{
+			// 播放选中的音频文件（自定义音频）
+			AudioManager.PostCustomSFX(selectedSound.Sound);
 
-				// 通知AI有声音产生，确保敌人能被吸引
-				AIMainBrain.MakeSound(new AISound
-				{
-					fromCharacter = CharacterMainControl.Main,
-					fromObject = CharacterMainControl.Main.gameObject,
-					pos = CharacterMainControl.Main.transform.position,
-					fromTeam = CharacterMainControl.Main.Team,
-					soundType = selectedSound.SoundType,
-					radius = selectedSound.Radius
-				});
-				hadTextLastTime = true; // 标记上次有气泡文本被显示
-			}
+			// 通知AI有声音产生，确保敌人能被吸引
+			AIMainBrain.MakeSound(new AISound
+			{
+				fromCharacter = main,
+				fromObject = main.gameObject,
+				pos = main.transform.position,
+				fromTeam = main.Team,
+				soundType = selectedSound.SoundType,
+				radius = selectedSound.Radius
+			});
+		}
 
-			if (selectedSound.Text != null) // 检查是否有气泡文本需要显示
-			{
-				// 显示气泡
-				DialogueBubblesManager.Show(
-					text: selectedSound.Text,
-					target: CharacterMainControl.Main.transform
-				);
-			}
-			else if (hadTextLastTime)
-			{
-				// 隐藏气泡（用瞬间气泡实现）
-				DialogueBubblesManager.Show(
-					text: string.Empty,
-					target: CharacterMainControl.Main.transform,
-					speed: 0f, // 瞬间显示
-					duration: 0f // 立即消失
-				);
-				hadTextLastTime = false; // 标记上次没有气泡文本被显示
-			}
+		if (selectedSound.Text != null) // 检查是否有气泡文本需要显示
+		{
+			// 显示气泡
+			DialogueBubblesManager.Show(
+				text: selectedSound.Text,
+				target: main.transform
+			);
+			hadTextLastTime = true; // 标记上次有气泡文本被显示
+		}
+		else if (hadTextLastTime)
+		{
+			// 隐藏气泡（用瞬间气泡实现）
+			DialogueBubblesManager.Show(
+				text: string.Empty,
+				target: main.transform,
+				speed: 0f, // 瞬间显示
+				duration: 0f // 立即消失
+			);
+			hadTextLastTime = false; // 标记上次没有气泡文本被显示
 		}
 	}
 }
