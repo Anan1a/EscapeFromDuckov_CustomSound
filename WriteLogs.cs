@@ -1,7 +1,10 @@
+// #if DEBUG
+
 using System;
 using System.Collections.Generic;
 using System.IO;
-using UnityEngine;
+using System.Diagnostics;
+using Debug = UnityEngine.Debug;
 using Newtonsoft.Json;
 
 namespace CustomSound;
@@ -23,14 +26,16 @@ static class WriteLogs
 	/// <remarks>
 	/// 此方法将日志消息追加到日志文件中，每个消息占一行
 	/// </remarks>
+	[Conditional("DEBUG")]
 	public static void WriteLog(string message)
 	{
 		// 写入日志消息到日志文件
 		File.AppendAllText(outputPath, $"{message}\n");
 	}
 
+	[Conditional("DEBUG")]
 	public static void WriteJsonLog(List<SoundGroup> soundGroups)
-    {
+	{
 		// 将处理后的数据序列化为JSON文件，方便检查
 		try
 		{
@@ -45,5 +50,7 @@ static class WriteLogs
 			WriteLog($"保存处理后的配置数据时出错: {ex.Message}");
 			Debug.LogError($"保存处理后的配置数据时出错: {ex.Message}");
 		}
-    }
+	}
 }
+
+// #endif
