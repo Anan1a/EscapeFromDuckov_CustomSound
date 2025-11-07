@@ -13,25 +13,6 @@ static class ReadConfig
 	private static readonly string soundsDirectory = ProjectPaths.SoundsDirectory; // 音效资源目录路径
 
 	/// <summary>
-	/// 配置文件的根对象，包含所有声音组的配置信息
-	/// </summary>
-	/// <remarks>
-	/// 该类对应config.json文件的最外层结构，
-	/// 通过JsonProperty特性映射JSON中的"soundGroups"字段
-	/// </remarks>
-	private class ConfigRoot
-	{
-		/// <summary>
-		/// 声音组列表，包含所有可用的声音组配置
-		/// </summary>
-		/// <value>
-		/// SoundGroup对象的列表，每个SoundGroup代表一个声音组配置
-		/// </value>
-		[JsonProperty("soundGroups")]
-		public List<SoundGroup> SoundGroups { get; set; } = [];
-	}
-
-	/// <summary>
 	/// 读取JSON配置文件并解析声音组配置
 	/// </summary>
 	/// <remarks>
@@ -75,18 +56,7 @@ static class ReadConfig
 			ValidateAndConvertSoundPaths(soundGroups);
 
 			// 将处理后的数据序列化为JSON文件，方便检查
-			try
-			{
-				var configRoot = new ConfigRoot { SoundGroups = soundGroups };
-				string outputJson = JsonConvert.SerializeObject(configRoot, Formatting.Indented);
-				WriteLogs.WriteLog("处理后的Json配置数据:");
-				WriteLogs.WriteLog(outputJson);
-				Debug.Log($"已将处理后的配置数据保存到mod日志");
-			}
-			catch (Exception ex)
-			{
-				Debug.LogError($"保存处理后的配置数据时出错: {ex.Message}");
-			}
+			WriteLogs.WriteJsonLog(soundGroups);
 
 			Debug.Log($"成功加载 {soundGroups.Count} 个有效声音组");
 			return soundGroups;

@@ -1,4 +1,8 @@
+using System;
+using System.Collections.Generic;
 using System.IO;
+using UnityEngine;
+using Newtonsoft.Json;
 
 namespace CustomSound;
 
@@ -24,4 +28,22 @@ static class WriteLogs
 		// 写入日志消息到日志文件
 		File.AppendAllText(outputPath, $"{message}\n");
 	}
+
+	public static void WriteJsonLog(List<SoundGroup> soundGroups)
+    {
+		// 将处理后的数据序列化为JSON文件，方便检查
+		try
+		{
+			var configRoot = new ConfigRoot { SoundGroups = soundGroups };
+			string outputJson = JsonConvert.SerializeObject(configRoot, Formatting.Indented);
+			WriteLog("处理后的Json配置数据:");
+			WriteLog(outputJson);
+			Debug.Log($"已将处理后的配置数据保存到mod日志");
+		}
+		catch (Exception ex)
+		{
+			WriteLog($"保存处理后的配置数据时出错: {ex.Message}");
+			Debug.LogError($"保存处理后的配置数据时出错: {ex.Message}");
+		}
+    }
 }
