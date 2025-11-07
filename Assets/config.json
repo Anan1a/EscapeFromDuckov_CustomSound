@@ -19,7 +19,7 @@
       "texts": ["笨~蛋", "Ba~~ka", "Ba♡ka"],
       "soundType": "combatSound",
       "radius": 40,
-      "weight": 10
+      "weight": 50
     },
     {
       "name": "bakabaka",
