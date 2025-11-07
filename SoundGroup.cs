@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace CustomSound;
 
@@ -20,37 +21,41 @@ class SoundGroup
     /// 声音组的名称，用于标识和调试（可选）
     /// </summary>
     /// <value>默认值为空字符串</value>
-    public string? Name { get; set; } = string.Empty;
-    
+    public string? Name { get; set; }
+
     /// <summary>
     /// 声音文件路径列表，存储该组所有可用的声音文件
     /// </summary>
     /// <value>默认值为空列表</value>
-    public List<string> Sounds { get; set; } = [];
+    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+    public List<string?> Sounds { get; set; } = [];
 
     /// <summary>
     /// 气泡文本列表，存储与该声音组关联的显示文本
     /// </summary>
     /// <value>默认值为空列表</value>
+    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
     public List<string?> Texts { get; set; } = [];
 
     /// <summary>
     /// 声音类型，定义该组声音的类型
     /// </summary>
     /// <value>默认值为unknowNoise，表示未知噪声类型</value>
-    public string? SoundType { get; set; } = "unknowNoise"; // 声音类型，避免反序列化异常
+    public string? SoundType { get; set; } // 声音类型，避免反序列化异常
     public SoundTypes SoundTypeEnum { get; set; } = SoundTypes.unknowNoise; // 声音类型枚举，用于代码处理
-    
+
 
     /// <summary>
     /// 声音传播半径，定义该组声音能传播的距离
     /// </summary>
     /// <value>默认值为15f，表示声音传播半径为15个单位</value>
+    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
     public float Radius { get; set; } = 15f;
     
     /// <summary>
     /// 权重，定义该声音组的播放优先级或概率
     /// </summary>
     /// <value>默认值为-1，表示未设置，默认将由声音和文本的总数计算得到</value>
+    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
     public int Weight { get; set; } = -1;
 }

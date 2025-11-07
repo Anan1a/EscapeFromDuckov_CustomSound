@@ -19,19 +19,19 @@ class SelectedSound
     /// 声音组的名称，用于标识和调试（可选）
     /// </summary>
     /// <value>默认值为空字符串</value>
-    public string? Name { get; set; } = string.Empty;
+    public string? Name { get; set; }
     
     /// <summary>
     /// 随机选择的声音文件路径
     /// </summary>
     /// <value>默认值为空字符串</value>
-    public string? Sound { get; set; } = string.Empty;
+    public string? Sound { get; set; }
     
     /// <summary>
     /// 与声音关联的气泡文本
     /// </summary>
     /// <value>默认值为空字符串</value>
-    public string? Text { get; set; } = string.Empty;
+    public string? Text { get; set; }
     
     /// <summary>
     /// 声音类型，定义该声音的行为和属性

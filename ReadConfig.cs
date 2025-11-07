@@ -11,7 +11,7 @@ static class ReadConfig
 {
     private static readonly string dllDirectory = ProjectPaths.DllDirectory; // DLL目录路径
 	private static readonly string soundsDirectory = ProjectPaths.SoundsDirectory; // 音效资源目录路径
-	
+
 	/// <summary>
 	/// 配置文件的根对象，包含所有声音组的配置信息
 	/// </summary>
@@ -44,13 +44,16 @@ static class ReadConfig
 	/// </remarks>
 	public static List<SoundGroup> ReadJsonConfig()
 	{
-        // 构造配置文件的完整路径，使用Path.Combine确保跨平台兼容性
-        string configPath = Path.Combine(dllDirectory, "config.json");
+		// 构造配置文件的完整路径，使用Path.Combine确保跨平台兼容性
+		string configPath = Path.Combine(dllDirectory, "config.json");
+
+		WriteLogs.WriteLog($"尝试读取配置文件 {configPath}，时间：{DateTime.Now}");
 
 		// 检查文件是否存在，如果不存在则记录错误并提前返回
 		if (!File.Exists(configPath))
 		{
 			Debug.LogError($"配置文件 {configPath} 不存在！");
+			WriteLogs.WriteLog($"配置文件 {configPath} 不存在！");
 			return [];
 		}
 
@@ -60,6 +63,7 @@ static class ReadConfig
 			if (string.IsNullOrWhiteSpace(jsonContent))
 			{
 				Debug.LogWarning("配置文件内容为空");
+				WriteLogs.WriteLog("配置文件内容为空");
 				return [];
 			}
 
@@ -70,6 +74,20 @@ static class ReadConfig
 			// 验证并转换路径
 			ValidateAndConvertSoundPaths(soundGroups);
 
+			// 将处理后的数据序列化为JSON文件，方便检查
+			try
+			{
+				var configRoot = new ConfigRoot { SoundGroups = soundGroups };
+				string outputJson = JsonConvert.SerializeObject(configRoot, Formatting.Indented);
+				WriteLogs.WriteLog("处理后的Json配置数据:");
+				WriteLogs.WriteLog(outputJson);
+				Debug.Log($"已将处理后的配置数据保存到mod日志");
+			}
+			catch (Exception ex)
+			{
+				Debug.LogError($"保存处理后的配置数据时出错: {ex.Message}");
+			}
+
 			Debug.Log($"成功加载 {soundGroups.Count} 个有效声音组");
 			return soundGroups;
 		}
@@ -77,12 +95,14 @@ static class ReadConfig
 		catch (JsonException ex)
 		{
 			Debug.LogError($"JSON解析错误: {ex.Message}");
+			WriteLogs.WriteLog($"JSON解析错误: {ex.Message}");
 			return [];
 		}
 		// 处理其他可能的异常，如文件IO错误等
-		catch (System.Exception ex)
+		catch (Exception ex)
 		{
 			Debug.LogError($"读取配置文件时出错: {ex.Message}");
+			WriteLogs.WriteLog($"读取配置文件时出错: {ex.Message}");
 			return [];
 		}
 	}
@@ -94,23 +114,33 @@ static class ReadConfig
 	/// <returns>验证并转换后的声音组列表</returns>
 	private static void ValidateAndConvertSoundPaths(List<SoundGroup> groups)
 	{
-		if (groups == null || groups.Count == 0)
+		// 验证是否为空或空列表
+		if (groups is not { Count: > 0 })
 		{
 			Debug.LogWarning("配置文件中未包含有效的声音组");
+			WriteLogs.WriteLog("配置文件中未包含有效的声音组");
 			return;
 		}
 		
+		// 遍历每个声音组
 		foreach (var group in groups)
 		{
 			if (group is null) continue; // 跳过空组
 
-			if (group is { Sounds: not null }) // 跳过空声音组
+			// 跳过空声音列表
+			if (group.Sounds is { Count: > 0 })
 			{
 				// 验证并转换每个声音文件路径
 				for (int i = 0; i < group.Sounds.Count; i++)
 				{
+					// 提取当前声音路径
+					string? soundPath = group.Sounds[i];
+					
+					// 跳过空字符串
+					if (string.IsNullOrEmpty(soundPath))
+						continue;
+
 					// 将相对路径转换为绝对路径
-					string soundPath = group.Sounds[i];
 					string absoluteSoundPath = Path.Combine(soundsDirectory, soundPath);
 
 					// 检查文件是否存在
@@ -130,16 +160,18 @@ static class ReadConfig
 				Debug.Log($"CustomSound: 声音组 '{group.Name ?? "未命名"}' 已处理，包含 {validSoundsCount}/{group.Sounds.Count} 个有效声音文件");
 			}
 
+			// 验证并转换声音类型
 			if (!string.IsNullOrEmpty(group.SoundType) &&
 				Enum.TryParse(group.SoundType, ignoreCase: true, out SoundTypes parsed))
 			{
 				group.SoundTypeEnum = parsed;
 			}
 
-			if (group.Weight == -1)
+			// 验证并转换权重
+			if (group.Weight < 0)
 			{
 				int soundCount = Mathf.Max(1, group.Sounds?.Count ?? 0);
-				int textCount = Mathf.Max(1, group.Texts?.Count  ?? 0);
+				int textCount = Mathf.Max(1, group.Texts?.Count ?? 0);
 				group.Weight = soundCount * textCount;
 			}
 		}
