@@ -2,9 +2,11 @@
 Cia 能自定义声音文件、声音气泡、声音类型、声音范围 llo～(∠ · ω < )⌒☆  
 重新勾选mod可以重加载配置和解决按键绑定问题的说。  
 
-特别感谢（音频和思路）：
-- 发现~杂鱼♡：https://steamcommunity.com/sharedfiles/filedetails/?id=3597808432
-- 按F1ciallo：https://steamcommunity.com/sharedfiles/filedetails/?id=3596681141
+特别感谢：
+- `发现~杂鱼♡`：https://steamcommunity.com/sharedfiles/filedetails/?id=3597808432
+- `按F1ciallo`：https://steamcommunity.com/sharedfiles/filedetails/?id=3596681141
+
+的音频和思路
 
 访问：
 - 开源地址：
