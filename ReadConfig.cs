@@ -30,11 +30,11 @@ static class ReadConfig
 
 		WriteLogs.WriteLog($"尝试读取配置文件 {configPath}，时间：{DateTime.Now}");
 
-		// 检查文件是否存在，如果不存在则记录错误并提前返回
+		// 检查文件是否存在，如果不存在则创建并写入默认配置
 		if (!File.Exists(configPath))
 		{
-			Debug.LogError($"配置文件 {configPath} 不存在！");
-			WriteLogs.WriteLog($"配置文件 {configPath} 不存在！");
+			Debug.LogError($"配置文件 {configPath} 不存在，已创建默认配置文件");
+			WriteLogs.WriteLog($"配置文件 {configPath} 不存在，已创建默认配置文件");
 			File.AppendAllText(configPath, DefaultConfig.DefaultConfigJson);
 		}
 
