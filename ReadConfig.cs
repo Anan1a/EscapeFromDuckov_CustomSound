@@ -35,7 +35,7 @@ static class ReadConfig
 		{
 			Debug.LogError($"配置文件 {configPath} 不存在！");
 			WriteLogs.WriteLog($"配置文件 {configPath} 不存在！");
-			return [];
+			File.AppendAllText(configPath, DefaultConfig.DefaultConfigJson);
 		}
 
 		try
