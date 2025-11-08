@@ -18,6 +18,6 @@ Cia 能自定义声音文件、声音气泡、声音类型、声音范围 llo～
 
 自定义配置文件在：  
 在mod根目录下\Steam\steamapps\workshop\content\3167020\3600686101  
-是config.json文件  
+是config.json文件（已内置配置文件，没有的话先运行一下）  
 可看注释或示例  
 记得备份文件！！！
